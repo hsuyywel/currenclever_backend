@@ -10,16 +10,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $data = json_decode(file_get_contents("php://input"), true);
 $email = $data['email'] ?? null;
-$password = $data['password'] ?? null;
 
-// Check if user exists
-$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+if (!$email) {
+    echo json_encode(["success" => false, "error" => "Email is required"]);
+    exit;
+}
+
+$stmt = $pdo->prepare("SELECT name, phone, email, dob, occupation, university, company FROM users WHERE email = ?");
 $stmt->execute([$email]);
 $user = $stmt->fetch();
 
-if ($user && password_verify($password, $user['password'])) {
-    echo json_encode(["success" => true, "name" => $user['name']]);
+if ($user) {
+    echo json_encode(["success" => true, "user" => $user]);
 } else {
-    echo json_encode(["success" => false, "error" => "Invalid credentials"]);
+    echo json_encode(["success" => false, "error" => "User not found"]);
 }
 ?>

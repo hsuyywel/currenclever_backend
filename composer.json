@@ -1,0 +1,22 @@
+{
+    "name": "currenclever/backend",
+    "description": "CurrenClever Expense Tracker Backend",
+    "version": "1.0.0",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "ext-pdo": "*",
+        "ext-json": "*"
+    },
+    "scripts": {
+        "start": "php -S 0.0.0.0:8000 index.php",
+        "start:prod": "sh -c 'php -S 0.0.0.0:${PORT:-8000} index.php'",
+        "migrate": "php migrate.php"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}
